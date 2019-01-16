@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -30,15 +30,33 @@ export class AppComponent {
   }
 
   testUnrestrictedResourceResult() {
+    const url = 'http://localhost:8080/api/firstbean';
+    this.http.get<any>(url)
+      .subscribe( x => this.unrestrictedResourceResult = JSON.stringify(x),
+      err => { this.unrestrictedResourceResult = 'Error ' + JSON.stringify(err); console.log(err); })
     console.log('test1')
   }
 
   testRestrictedResourceGETResult() {
-    console.log('test2')
+    const url = 'http://localhost:8080/api/goldenbean';
+    const username = "user"
+    const password = "123"
+
+    // Authentication header:
+    let authHeader = 'Basic ' + window.btoa(username + ':' + password);
+    let options = { headers : new HttpHeaders( { Authorization: authHeader }) }
+
+    console.log( url );
+    this.http.get<any>(url, options)
+      .subscribe( x => this.restrictedResourceGETResult = JSON.stringify(x),
+      err => { this.restrictedResourceGETResult = 'Error ' + JSON.stringify(err); console.log(err); })
   }
 
   testRestrictedResourcePOSTResult() {
-    console.log('test3')
+    const url = "http://localhost:8080/api/postbean";
+    this.http.post<any>(url, { abc : "posted-from-angular" })
+      .subscribe( x => this.restrictedResourcePOSTResult = JSON.stringify(x),
+      err => { this.restrictedResourcePOSTResult = 'Error ' + JSON.stringify(err); console.log(err); })
   }
 }
 

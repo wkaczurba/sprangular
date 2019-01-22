@@ -1,0 +1,13 @@
+<div>
+  <div *ngIf="!loginService.logged">
+    <div>
+      Username: <input [(ngModel)]="username" #usernameHtml />
+      Password: <input [(ngModel)]="password" #passwordHtml />
+    </div>
+    <!-- <button (click)="login(username.value, password.value)">Login</button> |  -->
+    <button (click)="handleLogin()">Login</button> |  -->
+  </div>
+  <div *ngIf="loginService.logged">
+    <button (click)="handleLogout()" [disabled]="!loginService.logged">Logout</button>
+  </div>
+</div>

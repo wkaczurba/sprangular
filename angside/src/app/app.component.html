@@ -1,27 +1,6 @@
 <h2>Test your auth...</h2>
-<div>
-  <div *ngIf="!logged">
-    <div>
-      Username: <input #username />
-      Password: <input #password />
-    </div>
-    <button (click)="login(username.value, password.value)">Login</button> | 
-  </div>
-  <div *ngIf="logged">
-    <button (click)="logout()" [disabled]="!logged">Logout</button>
-  </div>
-</div>
-<div>
-  <div>
-    Test unrestricted resource<button (click)="testUnrestrictedResourceResult()">Test1</button> 
-    Result: {{ unrestrictedResourceResult }}
-</div>
-  <div>
-    Test GET restricted resource<button (click)="testRestrictedResourceGETResult()">Test2</button>
-    Result: {{ restrictedResourceGETResult }}
-</div>
-  <div>
-    Test POST restricted resource<button (click)="testRestrictedResourcePOSTResult()">Test3</button>
-    Result: {{ restrictedResourcePOSTResult }}
-  </div>
-</div>
+
+<router-outlet></router-outlet>
+
+<h2>Resource test:</h2>
+<app-resourcetest></app-resourcetest>

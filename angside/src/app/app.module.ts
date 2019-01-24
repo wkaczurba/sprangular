@@ -9,7 +9,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ErrorComponent } from './error/error.component';
-import { ResourcetestComponent } from './resourcetest/resourcetest.component'
+import { ResourcetestComponent } from './resourcetest/resourcetest.component';
+import { LogoutComponent } from './logout/logout.component';
+import { FooterComponent } from './footer/footer.component';
+import { NewsComponent } from './news/news.component'
 
 @NgModule({
   declarations: [
@@ -18,7 +21,10 @@ import { ResourcetestComponent } from './resourcetest/resourcetest.component'
     DashboardComponent,
     WelcomeComponent,
     ErrorComponent,
-    ResourcetestComponent
+    ResourcetestComponent,
+    LogoutComponent,
+    FooterComponent,
+    NewsComponent
   ],
   imports: [
     BrowserModule,

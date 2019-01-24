@@ -1,7 +1,13 @@
 <div class="container">
+  <h4>Resource test: {{ loginService.logged ? 'Logged in' : 'Logged out' }} </h4>
   <div class="row">
     <div class="col-lg-4">
-      Test unrestricted resource<button (click)="testUnrestrictedResourceResult()" class="btn btn-primary">Test1</button> 
+      Test unrestricted resource
+      <button (click)="testUnrestrictedResourceResult()" 
+        class="btn" 
+        [class.btn-primary]='unrestrictedResourceResultSuccess == null'
+        [class.btn-danger]='unrestrictedResourceResultSuccess === false'
+        [class.btn-success]='unrestrictedResourceResultSuccess === true'>Test1</button> 
     </div>      
     <div class="col-lg-4">
       Result: {{ unrestrictedResourceResult }}
@@ -9,7 +15,12 @@
   </div>
   <div class="row">
       <div class="col-lg-4">
-        Test GET restricted resource<button (click)="testRestrictedResourceGETResult()" class="btn btn-primary">Test2</button>
+        Test GET restricted resource
+        <button (click)="testRestrictedResourceGETResult()" 
+        class="btn"
+        [class.btn-primary]='restrictedResourceGETResultSuccess == null'
+        [class.btn-danger]='restrictedResourceGETResultSuccess === false'
+        [class.btn-success]='restrictedResourceGETResultSuccess === true'>Test2</button> 
       </div>
       <div class="col-lg-8">
         Result: {{ restrictedResourceGETResult }}
@@ -17,7 +28,12 @@
   </div>
   <div class="row">
     <div class="col-lg-4">
-        Test POST restricted resource<button (click)="testRestrictedResourcePOSTResult()" class="btn btn-primary">Test3</button>
+        Test POST restricted resource
+        <button (click)="testRestrictedResourcePOSTResult()"
+        class="btn"
+        [class.btn-primary]='restrictedResourcePOSTResultSuccess == null'
+        [class.btn-danger]='restrictedResourcePOSTResultSuccess === false'
+        [class.btn-success]='restrictedResourcePOSTResultSuccess === true'>Test3</button> 
     </div>
     <div class="col-lg-8">
         Result: {{ restrictedResourcePOSTResult }}

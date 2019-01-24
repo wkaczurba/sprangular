@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { Observable, of } from 'rxjs';
+ 
 @Injectable({
   providedIn: 'root'
 })
@@ -12,7 +12,7 @@ export class LoginService {
   invalidLogin : string;
   logged = false;
 
-  handleLogin(username : string, password : string) : boolean {
+  handleLogin(username : string, password : string) : Observable<boolean> {
     console.log(`Attempting logging of user: ${this.username}`)
     if (username == 'user' && password == '123') {
       this.username = username;
@@ -20,18 +20,21 @@ export class LoginService {
       console.log('Login succeeded.')
       this.invalidLogin = null;
       this.logged = true;
-      return true;
+      return of(true);
     } else {
       console.log('Login failed.')
       this.invalidLogin = 'Login failed';
       this.logged = false;
-      return false;
+      return of(false);
     }
   }
 
-  handleLogout() {
+  handleLogout() : Observable<boolean> {
     this.logged = false;
+    this.username = '';
+    this.password = '';
     this.invalidLogin = null;
+    return of(true);
   }
 
   constructor() { }

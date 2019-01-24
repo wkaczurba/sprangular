@@ -9,12 +9,16 @@ import { LoginService } from '../login.service';
 })
 export class ResourcetestComponent implements OnInit {
 
-  logged = false; // TODO: Change to session storage.
+  unrestrictedResourceResultSuccess : boolean;
+  restrictedResourceGETResultSuccess : boolean;
+  restrictedResourcePOSTResultSuccess : boolean;
+
+  //logged = false; // TODO: Change to session storage.
   unrestrictedResourceResult : string;
   restrictedResourceGETResult : string;
   restrictedResourcePOSTResult : string;
 
-  constructor(private http : HttpClient, private loginService : LoginService) {
+  constructor(private http : HttpClient, public loginService : LoginService) {
   }
 
 
@@ -34,8 +38,13 @@ export class ResourcetestComponent implements OnInit {
     const url = 'http://localhost:8080/api/firstbean';
     let httpOptions = { headers : new HttpHeaders({ 'content-type': 'application/json', observe: 'response' }) };
     this.http.get<any>(url, httpOptions)
-      .subscribe( response => this.unrestrictedResourceResult = JSON.stringify(response),
-      err => { this.unrestrictedResourceResult = 'Error ' + JSON.stringify(err); console.log(err); })
+      .subscribe( response => { 
+        this.unrestrictedResourceResult = JSON.stringify(response);
+        this.unrestrictedResourceResultSuccess = true },
+      err => { 
+        this.unrestrictedResourceResult = 'Error ' + JSON.stringify(err); 
+        console.log(err);
+        this.unrestrictedResourceResultSuccess = false })
     console.log('test1')
   }
 
@@ -48,8 +57,14 @@ export class ResourcetestComponent implements OnInit {
 
     console.log( url );
     this.http.get<any>(url, options)
-      .subscribe( x => this.restrictedResourceGETResult = JSON.stringify(x),
-      err => { this.restrictedResourceGETResult = 'Error ' + JSON.stringify(err); console.log(err); })
+      .subscribe( response => {
+        this.restrictedResourceGETResult = JSON.stringify(response)
+        this.restrictedResourceGETResultSuccess = true;
+      },
+      err => { 
+        this.restrictedResourceGETResult = 'Error ' + JSON.stringify(err); console.log(err);
+        this.restrictedResourceGETResultSuccess = false;
+      })
   }
 
   testRestrictedResourcePOSTResult() {
@@ -63,8 +78,14 @@ export class ResourcetestComponent implements OnInit {
     //   err => { this.restrictedResourcePOSTResult = 'Error ' + JSON.stringify(err); console.log(err); })
 
     this.http.post<any>(url, "", options)
-      .subscribe( x => this.restrictedResourcePOSTResult = JSON.stringify(x),
-      err => { this.restrictedResourcePOSTResult = 'Error: ' + JSON.stringify(err); })
+      .subscribe( response => {
+        this.restrictedResourcePOSTResult = JSON.stringify(response)
+        this.restrictedResourcePOSTResultSuccess = true;
+      },
+      err => { 
+        this.restrictedResourcePOSTResult = 'Error: ' + JSON.stringify(err); 
+        this.restrictedResourcePOSTResultSuccess = false;
+      })
 
   }  
 

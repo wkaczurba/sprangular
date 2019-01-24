@@ -9,7 +9,7 @@ export class LoginService {
   username = 'user';
   password = ''; // 123
   errorMessage = 'invalid credentials';
-  invalidLogin = false;
+  invalidLogin : string;
   logged = false;
 
   handleLogin(username : string, password : string) : boolean {
@@ -18,11 +18,12 @@ export class LoginService {
       this.username = username;
       this.password = password;
       console.log('Login succeeded.')
+      this.invalidLogin = null;
       this.logged = true;
       return true;
     } else {
       console.log('Login failed.')
-      this.invalidLogin = true;
+      this.invalidLogin = 'Login failed';
       this.logged = false;
       return false;
     }
@@ -30,6 +31,7 @@ export class LoginService {
 
   handleLogout() {
     this.logged = false;
+    this.invalidLogin = null;
   }
 
   constructor() { }

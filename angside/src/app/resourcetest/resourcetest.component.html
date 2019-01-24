@@ -1,14 +1,26 @@
-<div>
-  <div>
-    Test unrestricted resource<button (click)="testUnrestrictedResourceResult()">Test1</button> 
-    Result: {{ unrestrictedResourceResult }}
-</div>
-  <div>
-    Test GET restricted resource<button (click)="testRestrictedResourceGETResult()">Test2</button>
-    Result: {{ restrictedResourceGETResult }}
-</div>
-  <div>
-    Test POST restricted resource<button (click)="testRestrictedResourcePOSTResult()">Test3</button>
-    Result: {{ restrictedResourcePOSTResult }}
+<div class="container">
+  <div class="row">
+    <div class="col-lg-4">
+      Test unrestricted resource<button (click)="testUnrestrictedResourceResult()" class="btn btn-primary">Test1</button> 
+    </div>      
+    <div class="col-lg-4">
+      Result: {{ unrestrictedResourceResult }}
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-lg-4">
+        Test GET restricted resource<button (click)="testRestrictedResourceGETResult()" class="btn btn-primary">Test2</button>
+      </div>
+      <div class="col-lg-8">
+        Result: {{ restrictedResourceGETResult }}
+      </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-4">
+        Test POST restricted resource<button (click)="testRestrictedResourcePOSTResult()" class="btn btn-primary">Test3</button>
+    </div>
+    <div class="col-lg-8">
+        Result: {{ restrictedResourcePOSTResult }}
+    </div>
   </div>
 </div>

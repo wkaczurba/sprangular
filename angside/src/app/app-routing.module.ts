@@ -7,13 +7,14 @@ import { WelcomeComponent } from './welcome/welcome.component'
 import { ErrorComponent } from './error/error.component'
 import { LogoutComponent } from './logout/logout.component';
 import { NewsComponent } from './news/news.component'
+import { RouteGuardService } from "./route-guard.service";
 
 const paths : Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent  },
-  { path: 'news', component: NewsComponent },
-  { path: 'welcome/:name', component: WelcomeComponent },
-  { path: 'dashboard', component: DashboardComponent },
+  { path: 'news', component: NewsComponent, canActivate: [RouteGuardService] },
+  { path: 'welcome/:name', component: WelcomeComponent, canActivate: [RouteGuardService] },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [RouteGuardService] },
   { path: 'logout', component: LogoutComponent },
   { path: '**', component: ErrorComponent }
 ]

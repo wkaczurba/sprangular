@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { LoginService } from '../login.service';
 
 @Component({
@@ -8,8 +8,6 @@ import { LoginService } from '../login.service';
   styleUrls: ['./resourcetest.component.css']
 })
 export class ResourcetestComponent implements OnInit {
-
-  
 
   unrestrictedResourceResultSuccess : boolean;
   restrictedResourceGETResultSuccess : boolean;
@@ -23,17 +21,13 @@ export class ResourcetestComponent implements OnInit {
   constructor(private http : HttpClient, public loginService : LoginService) {
   }
 
-
   ngOnInit() {    
   }  
 
-  getAuthHeader() : string {
-    return 'Basic ' + window.btoa(this.loginService.auth.username + ':' + this.loginService.auth.password);
-  }
-
   testUnrestrictedResourceResult() {
     const url = 'http://localhost:8080/api/firstbean';
-    let httpOptions = { headers : new HttpHeaders({ 'content-type': 'application/json', observe: 'response' }) };
+    let httpOptions = { headers : new HttpHeaders({ 'content-type': 'application/json', observe: 'response', 'no-auth' : 'true' }) };
+    // no-auth: 'true' is internal within application to let interceptor know that no authorization headers should be inserted.
     this.http.get<any>(url, httpOptions)
       .subscribe( response => { 
         this.unrestrictedResourceResult = JSON.stringify(response);
@@ -49,10 +43,7 @@ export class ResourcetestComponent implements OnInit {
     const url = 'http://localhost:8080/api/goldenbean';
 
     // Authentication header:
-    let options = { headers : new HttpHeaders( { Authorization: this.getAuthHeader(), observe: 'response' }) }
-
-    console.log( url );
-    this.http.get<any>(url, options)
+    this.http.get<any>(url, { observe: 'response' })
       .subscribe( response => {
         this.restrictedResourceGETResult = JSON.stringify(response)
         this.restrictedResourceGETResultSuccess = true;
@@ -66,9 +57,10 @@ export class ResourcetestComponent implements OnInit {
   testRestrictedResourcePOSTResult() {
     const url = "http://localhost:8080/api/postbean";
 
-    let options = { headers : new HttpHeaders ( { Authorization: this.getAuthHeader(), observe: 'response', abc : "posted-from-angular" })}
-
-    this.http.post<any>(url, "", options)
+    const options: { headers : HttpHeaders; observe : "response"; } =
+      { headers: new HttpHeaders({ abc : "posted-from-angular" }), observe: 'response' }
+    
+    this.http.post<any>(url, "", options )
       .subscribe( response => {
         this.restrictedResourcePOSTResult = JSON.stringify(response)
         this.restrictedResourcePOSTResultSuccess = true;

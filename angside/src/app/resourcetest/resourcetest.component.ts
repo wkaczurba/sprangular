@@ -9,6 +9,8 @@ import { LoginService } from '../login.service';
 })
 export class ResourcetestComponent implements OnInit {
 
+  
+
   unrestrictedResourceResultSuccess : boolean;
   restrictedResourceGETResultSuccess : boolean;
   restrictedResourcePOSTResultSuccess : boolean;
@@ -25,14 +27,9 @@ export class ResourcetestComponent implements OnInit {
   ngOnInit() {    
   }  
 
-  // login(username : string, password : string) {
-  //   console.log(username);
-  //   console.log(password);
-  // }
-
-  // logout() {
-  //   console.log('logout');
-  // }
+  getAuthHeader() : string {
+    return 'Basic ' + window.btoa(this.loginService.auth.username + ':' + this.loginService.auth.password);
+  }
 
   testUnrestrictedResourceResult() {
     const url = 'http://localhost:8080/api/firstbean';
@@ -52,8 +49,7 @@ export class ResourcetestComponent implements OnInit {
     const url = 'http://localhost:8080/api/goldenbean';
 
     // Authentication header:
-    let authHeader = 'Basic ' + window.btoa(this.loginService.username + ':' + this.loginService.password);
-    let options = { headers : new HttpHeaders( { Authorization: authHeader, observe: 'response' }) }
+    let options = { headers : new HttpHeaders( { Authorization: this.getAuthHeader(), observe: 'response' }) }
 
     console.log( url );
     this.http.get<any>(url, options)
@@ -70,12 +66,7 @@ export class ResourcetestComponent implements OnInit {
   testRestrictedResourcePOSTResult() {
     const url = "http://localhost:8080/api/postbean";
 
-    let authHeader = 'Basic ' + window.btoa(this.loginService.username + ':' + this.loginService.password);
-    let options = { headers : new HttpHeaders ( { Authorization: authHeader, observe: 'response', abc : "posted-from-angular" })}
-    //this.http.post<any>(url, { abc : "posted-from-angular", observe: 'response' })
-    // this.http.post<any>(url, "", options)
-    //   .subscribe( x => this.restrictedResourcePOSTResult = JSON.stringify(x),
-    //   err => { this.restrictedResourcePOSTResult = 'Error ' + JSON.stringify(err); console.log(err); })
+    let options = { headers : new HttpHeaders ( { Authorization: this.getAuthHeader(), observe: 'response', abc : "posted-from-angular" })}
 
     this.http.post<any>(url, "", options)
       .subscribe( response => {

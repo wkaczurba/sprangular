@@ -22,7 +22,7 @@ export class LoginService {
     return 'Basic ' + window.btoa(username + ':' + password);  
   }
 
-  handleLogin(username : string, password : string) : Observable<boolean> {
+  handleBasicAuthLogin(username : string, password : string) : Observable<boolean> {
     let authorizationHeader = this.getAuthHeader(username, password)
     return this.http.get<BasicAuth>(this.loginUrl, { headers : new HttpHeaders({ Authorization: authorizationHeader }) })
       .pipe(
@@ -42,6 +42,10 @@ export class LoginService {
           }
         )
       )
+  }
+
+  handleJwtAuthLogin() : Observable<boolean> {
+    return of(false); // TODO: Code from here.
   }
 
   isLogged() : boolean {

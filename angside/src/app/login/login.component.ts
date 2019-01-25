@@ -27,12 +27,8 @@ export class LoginComponent implements OnInit {
   handleLogin() {
 
     console.log(`Attempting logging of user: ${this.username}`)
-    // if (this.username == 'user' && this.password == '123') {
-    //   // TODO: router navigate  ...
-    //   this.router.navigate(['/welcome', this.username])      
-    // }
 
-    this.loginService.handleLogin(this.username, this.password).subscribe(
+    this.loginService.handleBasicAuthLogin(this.username, this.password).subscribe(
       res => { if (res) {
           this.router.navigate(['/welcome', this.username])      
         } else {
@@ -40,11 +36,6 @@ export class LoginComponent implements OnInit {
         }
       }
     )
-    // if (this.loginService.handleLogin(this.username, this.password)) {
-    //   this.router.navigate(['/welcome', this.username])
-    // } else {
-
-    // }    
   }
 
   handleLogout() {

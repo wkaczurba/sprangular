@@ -11,6 +11,6 @@ export class RouteGuardService implements CanActivate {
   constructor(private loginService : LoginService) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    return this.loginService.isLogged;
+    return this.loginService.isLogged();
   }  
 }

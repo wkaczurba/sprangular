@@ -1,8 +1,8 @@
 <div class="navbar">
   <ul class="list-inline">
-    <li class="list-inline-item" *ngIf="!loginService.isLogged"><a routerLink="/login">Login</a></li>
-    <li class="list-inline-item" *ngIf="loginService.isLogged"><a routerLink="/news">News</a></li>
-    <li class="list-inline-item" *ngIf="loginService.isLogged"><a routerLink="/dashboard">Dashboard</a></li>
-    <li class="list-inline-item" *ngIf="loginService.isLogged"><a routerLink="/logout">LogOut</a></li>
+    <li class="list-inline-item" *ngIf="!loginService.isLogged()"><a routerLink="/login">Login</a></li>
+    <li class="list-inline-item" *ngIf="loginService.isLogged()"><a routerLink="/news">News</a></li>
+    <li class="list-inline-item" *ngIf="loginService.isLogged()"><a routerLink="/dashboard">Dashboard</a></li>
+    <li class="list-inline-item" *ngIf="loginService.isLogged()"><a routerLink="/logout">LogOut</a></li>
   </ul>
 </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from '../login.service';
 
 @Component({
@@ -9,16 +9,20 @@ import { LoginService } from '../login.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private router : Router, private loginService : LoginService) { }
+  constructor(private router : Router, 
+    private loginService : LoginService) { }
 
   ngOnInit() {
+    if (this.loginService.isLogged()) {
+      console.log('login.component: logged');
+      this.router.navigate(['/dashboard/'])
+    } else {
+      console.log('login.component: not logged');
+    }
   }
 
   username = 'user';
   password = '123'; // 123
-  // errorMessage = 'invalid credentials';
-  // invalidLogin = false;
-  // logged = false;
 
   handleLogin() {
 

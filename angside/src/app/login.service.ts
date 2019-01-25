@@ -10,12 +10,9 @@ import { BasicAuth } from './BasicAuth';
 export class LoginService {
   loginUrl : string = 'http://localhost:8080/api/basicAuth'
 
-  //username = 'user';
-  //password = ''; // 123
-  auth : BasicAuth = { username: '', password: ''}
   errorMessage = 'invalid credentials';
   invalidLogin : string;
-  isLogged = false;
+  //isLogged = false;
 
   constructor(private http :  HttpClient) { }  
 
@@ -26,36 +23,41 @@ export class LoginService {
   }
 
   handleLogin(username : string, password : string) : Observable<boolean> {
-    //console.log(`Attempting logging of user: ${this.username}`);
-
-    return this.http.get<BasicAuth>(this.loginUrl, { headers : new HttpHeaders({ Authorization: this.getAuthHeader(username, password)}) })
+    let authorizationHeader = this.getAuthHeader(username, password)
+    return this.http.get<BasicAuth>(this.loginUrl, { headers : new HttpHeaders({ Authorization: authorizationHeader }) })
       .pipe(
         map( basicAuth => { 
           // success:
           console.log('x=' + JSON.stringify(basicAuth));
-          this.auth = basicAuth
-          this.auth.password = password;
-          this.isLogged = true;
+          sessionStorage.setItem('authenticatedUser', basicAuth.username);
+          sessionStorage.setItem('authorizationHeader', authorizationHeader);
+
+          //this.auth.password = password;
           this.invalidLogin = null;
           return true;
         }),
         catchError( (err : any) => {
-          this.auth = { username:'', password:''};
-          this.isLogged = false;
+          this.logout();
           this.invalidLogin = 'Invalid login or other exception.';
           return of(false);
           }
         )
       )
-
   }
 
-  handleLogout() : Observable<boolean> {
-    this.isLogged = false;
-    this.auth = { username: '', password: '' };
+  isLogged() : boolean {
+    return sessionStorage.getItem('authenticatedUser') != null;
+  }
+
+  private logout() {
+    sessionStorage.removeItem('authorizationHeader');
+    sessionStorage.removeItem('authenticatedUser');    
     this.invalidLogin = null;
+  }
+
+  handleLogout() : Observable<boolean> {    
+    this.logout();
     return of(true);
   }
-
 
 }

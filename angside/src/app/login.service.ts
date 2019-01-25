@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { switchMap, catchError, map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BasicAuth } from './BasicAuth';
+import { API_URL, TOKEN, AUTHENTICATED_USER } from './constants';
  
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  loginUrl : string = 'http://localhost:8080/api/basicAuth'
+  loginUrl : string = `${API_URL}/basicAuth`
 
   errorMessage = 'invalid credentials';
   invalidLogin : string;
-  //isLogged = false;
 
   constructor(private http :  HttpClient) { }  
 
@@ -29,10 +29,9 @@ export class LoginService {
         map( basicAuth => { 
           // success:
           console.log('x=' + JSON.stringify(basicAuth));
-          sessionStorage.setItem('authenticatedUser', basicAuth.username);
-          sessionStorage.setItem('authorizationHeader', authorizationHeader);
+          sessionStorage.setItem(AUTHENTICATED_USER, basicAuth.username);
+          sessionStorage.setItem(TOKEN, authorizationHeader);
 
-          //this.auth.password = password;
           this.invalidLogin = null;
           return true;
         }),
@@ -46,16 +45,16 @@ export class LoginService {
   }
 
   isLogged() : boolean {
-    return sessionStorage.getItem('authenticatedUser') != null;
+    return sessionStorage.getItem(AUTHENTICATED_USER) != null;
   }
 
   private logout() {
-    sessionStorage.removeItem('authorizationHeader');
-    sessionStorage.removeItem('authenticatedUser');    
+    sessionStorage.removeItem(TOKEN);
+    sessionStorage.removeItem(AUTHENTICATED_USER);    
     this.invalidLogin = null;
   }
 
-  handleLogout() : Observable<boolean> {    
+  handleLogout() : Observable<boolean> {
     this.logout();
     return of(true);
   }

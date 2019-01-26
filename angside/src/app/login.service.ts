@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BasicAuth } from './BasicAuth';
-import { API_URL, TOKEN, AUTHENTICATED_USER } from './constants';
+import { API_URL, TOKEN, AUTHENTICATED_USER, JWT_AUTH_URL } from './constants';
  
 @Injectable({
   providedIn: 'root'
@@ -44,8 +44,26 @@ export class LoginService {
       )
   }
 
-  handleJwtAuthLogin() : Observable<boolean> {
-    return of(false); // TODO: Code from here.
+  handleJwtAuthLogin(username : string, password : string) : Observable<boolean> {
+
+    return this.http.post<any>(`${JWT_AUTH_URL}`, { username, password })
+      .pipe(
+        map(data => {
+          console.log('x=' + JSON.stringify(data))
+          sessionStorage.setItem(AUTHENTICATED_USER, username)
+          sessionStorage.setItem(TOKEN, `Bearer ${data.token}`)
+          return true
+        }),
+        catchError( (err : any) => {
+          this.logout()
+          this.invalidLogin = 'Invalid login or other excepiton';
+          return of(false)
+        })
+      )
+  }
+
+  getUsername() {
+    return this.isLogged() ? sessionStorage.getItem(AUTHENTICATED_USER) : null;
   }
 
   isLogged() : boolean {

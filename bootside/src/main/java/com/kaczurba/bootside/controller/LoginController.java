@@ -23,4 +23,5 @@ public class LoginController {
 		
 		return new ResponseEntity<>(new BasicAuthentication(username, null), HttpStatus.OK);
 	}
+	
 }

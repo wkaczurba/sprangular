@@ -24,9 +24,9 @@ export class LoginComponent implements OnInit {
   username = 'user';
   password = '123'; // 123
 
-  handleLogin() {
+  handleBasicAuthLogin() {
 
-    console.log(`Attempting logging of user: ${this.username}`)
+    console.log(`Attempting BasicAuth logging of user: ${this.username}`)
 
     this.loginService.handleBasicAuthLogin(this.username, this.password).subscribe(
       res => { if (res) {
@@ -37,6 +37,20 @@ export class LoginComponent implements OnInit {
       }
     )
   }
+
+  handleJwtAuthLogin() {
+
+    console.log(`Attempting JWT logging of user: ${this.username}`)
+
+    this.loginService.handleJwtAuthLogin(this.username, this.password).subscribe(
+      res => { if (res) {
+          this.router.navigate(['/welcome', this.username])      
+        } else {
+          // HANDLE.
+        }
+      }
+    )
+  }  
 
   handleLogout() {
       this.router.navigate(['/logout']);
